@@ -1,5 +1,5 @@
 # Chlothzy-Product-Card
-<!-- 
+
     Part 2: Technical Explanation
 
     1. Overall Approach & Goal:
@@ -33,4 +33,4 @@
     - Image loading delays can be improved with preloading.
     - Unavailable colors can be greyed out in future.
     - Ensured tap events are responsive on mobile with proper size and spacing.
-  -->
+
