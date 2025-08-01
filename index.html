@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chlothzy Product Card</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: 0.3s ease-in-out;
+    }
+
+    .product-card figure {
+      margin: 0;
+      padding: 0;
+    }
+
+    .product-card img {
+      width: 100%;
+      display: block;
+      transition: 0.3s ease-in-out;
+    }
+
+    .product-content {
+      padding: 1rem;
+    }
+
+    .product-content h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .product-content p {
+      font-size: 1.1rem;
+      margin: 0 0 1rem;
+      color: #333;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      outline: none;
+      transition: 0.2s ease-in-out;
+    }
+
+    .swatch[aria-checked="true"] {
+      border: 2px solid #000;
+    }
+
+    @media (max-width: 400px) {
+      .product-card {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="product-card">
+    <figure>
+      <img id="product-image" src="https://m.media-amazon.com/images/I/913SmmATzVL._UY1100_.jpg" alt="Red Shirt" />
+    </figure>
+    <div class="product-content">
+      <h2>Stylish Shirt</h2>
+      <p id="product-price">₹999</p>
+      <div class="swatches" role="radiogroup" aria-label="Color options">
+        <div class="swatch" role="radio" tabindex="0" aria-checked="true" style="background-color: red;" data-color="Red"></div>
+        <div class="swatch" role="radio" tabindex="0" aria-checked="false" style="background-color: blue;" data-color="Blue"></div>
+        <div class="swatch" role="radio" tabindex="0" aria-checked="false" style="background-color: green;" data-color="Green"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const productData = [
+      {
+        color: "Red",
+        image: "https://www.teez.in/cdn/shop/products/Read-Books-Not-T-Shirts-T-Shirt-2.jpg?v=1580792688",
+        price: "₹999"
+      },
+      {
+        color: "Blue",
+        image: "https://m.media-amazon.com/images/I/913SmmATzVL._UY1100_.jpg",
+        price: "₹1049"
+      },
+      {
+        color: "Green",
+        image: "https://veirdo.in/cdn/shop/files/ai_10.jpg?v=1753520951&width=533",
+        price: "₹1099"
+      }
+    ];
+
+    const swatches = document.querySelectorAll(".swatch");
+    const productImage = document.getElementById("product-image");
+    const productPrice = document.getElementById("product-price");
+
+    swatches.forEach((swatch) => {
+      swatch.addEventListener("click", () => {
+        const selectedColor = swatch.getAttribute("data-color");
+
+        // Update image and price
+        const product = productData.find(p => p.color === selectedColor);
+        productImage.src = product.image;
+        productImage.alt = `${product.color} Shirt`;
+        productPrice.textContent = product.price;
+
+        // Update ARIA and visual state
+        swatches.forEach(s => s.setAttribute("aria-checked", "false"));
+        swatch.setAttribute("aria-checked", "true");
+      });
+
+      swatch.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          swatch.click();
+        }
+      });
+    });
+  </script>
+
+  <!-- 
+    Part 2: Technical Explanation
+
+    1. Overall Approach & Goal:
+    The goal was to create a responsive, accessible product card that allows users to switch between different color variations. The user sees real-time updates of the image and price upon selecting a swatch, enhancing UX and interaction.
+
+    2. HTML Structure:
+    - <section>: Container for the product card.
+    - <figure>: For displaying the product image.
+    - <h2>: Product title.
+    - <p>: Price element.
+    - <div class="swatches">: Contains the color swatches with role="radiogroup".
+    - Each swatch is a div with role="radio" and aria-checked for accessibility.
+
+    3. CSS Styling & Responsiveness:
+    - Flexbox used for layout; media query ensures responsiveness.
+    - Swatches are styled as colored circles.
+    - Active swatch shows a visible border.
+    - Transition effect added to image for smooth change.
+
+    4. JavaScript Functionality:
+    - Used an array of objects (productData) for different variations.
+    - Event listeners handle click and keydown for accessibility.
+    - Updates the image, price, and aria attributes dynamically.
+
+    5. Accessibility:
+    - Alt text for product images.
+    - ARIA roles (radiogroup, radio, aria-checked) added.
+    - Keyboard navigation supported via keydown event.
+
+    6. Potential Challenges:
+    - Image loading delays can be improved with preloading.
+    - Unavailable colors can be greyed out in future.
+    - Ensured tap events are responsive on mobile with proper size and spacing.
+  -->
+</body>
+</html>
